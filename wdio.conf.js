@@ -1,5 +1,3 @@
-const { existsSync, mkdirSync } = require('fs');
-
 exports.config = {
     //
     // ====================
@@ -112,7 +110,7 @@ exports.config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'mocha',
-
+    
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -220,31 +218,17 @@ exports.config = {
     // afterHook: function (test, context, { error, result, duration, passed, retries }, hookName) {
     // },
     /**
-       * Function to be executed after a test (in Mocha/Jasmine only)
-       * @param {Object}  test             test object
-       * @param {Object}  context          scope object the test was executed with
-       * @param {Error}   result.error     error object in case the test fails, otherwise 
-       * @param {Any}     result.result    return object of test function
-       * @param {Number}  result.duration  duration of test
-       * @param {Boolean} result.passed    true if test has passed, otherwise false
-       * @param {Object}  result.retries   informations to spec related retries, e.g. 
-       */
-
-    afterTest: async (test, context, result) => {
-        // take a screenshot anytime a test fails and throws an error
-        if (result.error) {
-            console.log(`Screenshot for the failed test ${test.title} is saved`);
-            const filename = test.title + '.png';
-            const dirPath = './artifacts/screenshots/';
-
-            if (!existsSync(dirPath)) {
-                mkdirSync(dirPath, {
-                    recursive: true,
-                });
-            }
-            await browser.saveScreenshot(dirPath + filename);
-        }
-    },
+     * Function to be executed after a test (in Mocha/Jasmine only)
+     * @param {object}  test             test object
+     * @param {object}  context          scope object the test was executed with
+     * @param {Error}   result.error     error object in case the test fails, otherwise `undefined`
+     * @param {*}       result.result    return object of test function
+     * @param {number}  result.duration  duration of test
+     * @param {boolean} result.passed    true if test has passed, otherwise false
+     * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
+     */
+    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
+    // },
 
 
     /**
