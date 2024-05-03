@@ -2,7 +2,7 @@
   "name": "10_wdio",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "test": "wdio run ./wdio.conf.js"
   },

@@ -1,6 +1,6 @@
-const Page = require('./Page');
+import Page from './Page';
 
-class PasteBinPage extends Page {
+export default class PasteBinPage extends Page {
     // open the tested page
     async open () {
         await super.open('https://pastebin.com');
@@ -25,5 +25,3 @@ class PasteBinPage extends Page {
         await $('input#postform-name').setValue(input);
     }
 };
-
-exports.PasteBinPage;

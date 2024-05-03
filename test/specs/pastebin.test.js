@@ -1,4 +1,4 @@
-const PasteBinPage = require('../../po/pages/pastebin.page');
+import PasteBinPage from '../../po/pages/pastebin.page';
 
 describe('https://pastebin.com', () => {
     

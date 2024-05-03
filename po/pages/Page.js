@@ -1,4 +1,4 @@
-class Page {
+export default class Page {
     constructor() {
         this.title = 'My Page'
     }
@@ -7,5 +7,3 @@ class Page {
         await browser.url(path)
     }
 };
-
-exports.Page;
