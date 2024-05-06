@@ -6,7 +6,6 @@ describe('https://pastebin.com', () => {
     });
 
     it('creates "New Paste" by following the script', async () => {
-        await PasteBinPage.newPasteInputField.click();
         await PasteBinPage.newPasteInputField.setValue('Hello from WebDriver');
         await PasteBinPage.setPasteExpiration('10 Minutes');
         await PasteBinPage.pasteNameInputField.setValue('helloweb');
