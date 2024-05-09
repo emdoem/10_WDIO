@@ -26,7 +26,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // open the calculator directly if you want to skip the searching part of the script
-        await productsCalculatorComponent.open()
+        // await productsCalculatorComponent.open()
         // COMPUTE ENGINE now appears in the pop-up, after clicking 'Add to estimate'
         await productsCalculatorComponent.clickAddToEstimateButton();
         // button is often outside of displayed layout, so need to scroll to find it
