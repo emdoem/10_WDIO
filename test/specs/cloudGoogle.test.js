@@ -3,25 +3,22 @@ import productsCalculatorComponent from "../../po/components/productsCalculator.
 import costEstimateSummaryComponent from "../../po/components/costEstimateSummary.component.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
-    // it('1. Open https://cloud.google.com/.', async () => {
-    //     await cloudGooglePage.open();
-    // });
+    it('1. Open https://cloud.google.com/.', async () => {
+        await cloudGooglePage.open();
+    });
 
-    // it('2. Click on the icon at the top of the portal page and enter "Google Cloud Platform Pricing Calculator" into the search field.', async () => {
-    //     await $("div > input[placeholder='Search']").click();
-    //     await $("input[placeholder='Search']").setValue('Google Cloud Platform Pricing Calculator');
-    // });
+    it('2. Click on the icon at the top of the portal page and enter "Google Cloud Platform Pricing Calculator" into the search field.', async () => {
+        await $("div > input[placeholder='Search']").click();
+        await $("input[placeholder='Search']").setValue('Google Cloud Platform Pricing Calculator');
+    });
 
-    // it('3. Perform the search.', async () => {
-    //     await browser.keys(['Enter']);
-    // });
+    it('3. Perform the search.', async () => {
+        await browser.keys(['Enter']);
+    });
 
-    // it('4. Click "Google Cloud Platform Pricing Calculator" in the search results and go to the calculator page.', async () => {
-    //     // await $("div.gs-title").waitForDisplayed({ timeout: 5000 }); // this doesn't help
-
-    //     // click the first search result to disregard it's not matching the search criteria perfectly:
-    //     await $("div.gs-title").click(); // nothing happens on this click...
-    // });
+    it('4. Click "Google Cloud Platform Pricing Calculator" in the search results and go to the calculator page.', async () => {
+        await $('//b[contains(text(), "Google Cloud Pricing Calculator")]').click(); // suboptimal
+    });
 
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // opening the component should be replaced with 'waitForDisplayed'?
@@ -118,6 +115,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     });
 
     it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
+        // await browser.pause(5000);
         // verify number of instances (4)
         await expect($('//*[contains(text(), "Number of Instances")]/..//span[contains(text(), "4")]'))
             .toBeDisplayed(); // this only works for mock summary - why?
