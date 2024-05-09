@@ -1,5 +1,3 @@
-// import Page from './Page.js';
-
 export default new class ProductsCalculatorComponent {
     // open the tested page - in case there's an issue opening it from the search results
     async open() {
