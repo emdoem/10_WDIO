@@ -2,6 +2,7 @@ import cloudGooglePage from "../../po/pages/cloudGoogle.page.js";
 import productsCalculatorComponent from "../../po/components/productsCalculator.component.js";
 import costEstimateSummaryComponent from "../../po/components/costEstimateSummary.component.js";
 import searchResultsComponent from "../../po/components/searchResults.component.js";
+import computeEngineCalculatorComponent from "../../po/components/computeEngineCalculator.component.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     it('1. Open https://cloud.google.com/.', async () => {
@@ -22,84 +23,75 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         await searchResultsComponent.getResultContaining("Google Cloud Pricing Calculator").click();
     });
 
-    // it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
-    //     // opening the component should be replaced with 'waitForDisplayed'?
-    //     await productsCalculatorComponent.open();
-    //     // COMPUTE ENGINE now appears in the pop-up, after clicking 'Add to estimate'
-    //     await $('//*[contains(text(), "Add to estimate")]').scrollIntoView({ block: 'center', inline: 'center' }); // this is a suboptimal selector, looking for a better one
-    //     await $('//*[contains(text(), "Add to estimate")]').click();
-    //     // locate COMPUTE ENGINE product and click it:
-    //     await $("//h2[contains(text(), 'Compute Engine')]").waitForDisplayed({ timeout: 2000 });
-    //     await $("//h2[contains(text(), 'Compute Engine')]").click();
-    // });
+    it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
+        // open the calculator directly if you want to skip the searching part of the script
+        await productsCalculatorComponent.open()
+        // COMPUTE ENGINE now appears in the pop-up, after clicking 'Add to estimate'
+        await productsCalculatorComponent.clickAddToEstimateButton();
+        // button is often outside of displayed layout, so need to scroll to find it
 
-    // it('6. Fill out the form with the following data:', async () => {
-    //     //    * Number of instances: 4
-    //     await $("div.QiFlid label input").setValue(4); // what a terrible selector
-    //     //    * What are these instances for?: leave blank
-    //     // [this isn't part of the form anymore]
+        // locate COMPUTE ENGINE product and click it (displays in a pop-up window, so requires additional logic):
+        await productsCalculatorComponent.clickComputeEngineButton();
+    });
 
-    //     //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
-    //     // [leaving in default state]
+    it('6. Fill out the form with the following data:', async () => {
+        //    * Number of instances: 4
+        await computeEngineCalculatorComponent.setNumberOfInstances('4');
+        
+        //    * What are these instances for?: leave blank
+        // [this isn't part of the form anymore]
 
-    //     //    * Provisioning model: Regular
-    //     // [leaving in default state]
+        //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
+        // [leaving in default state]
 
-    //     //    * Machine Family: General purpose 
-    //     // [leaving in default state]
+        //    * Provisioning model: Regular
+        // [leaving in default state]
 
-    //     //    * Series: N1 
-    //     // [leaving in default state]
+        //    * Machine Family: General purpose 
+        // [leaving in default state]
 
-    //     //    * Machine type: n1-standard-8 (vCPUs: 8, RAM: 30 GB)
-    //     await $("//ul[@aria-label='Machine type']/parent::*/parent::*").scrollIntoView({ block: 'center', inline: 'center' });
-    //     await $("//ul[@aria-label='Machine type']/parent::*/parent::*").click();
-    //     await $("//li[@data-value='n1-standard-8']").click();
+        //    * Series: N1 
+        // [leaving in default state]
 
-    //     //    * Select “Add GPUs“
-    //     await $('button[aria-label = "Add GPUs"]').scrollIntoView({ block: 'center', inline: 'center' });
-    //     await $('button[aria-label = "Add GPUs"]').click();
+        //    * Machine type: n1-standard-8 (vCPUs: 8, RAM: 30 GB)
+        await computeEngineCalculatorComponent.setSelectField('Machine type', 'n1-standard-8');
 
-    //     //            * GPU type: NVIDIA Tesla V100
-    //     await $("//ul[@aria-label='GPU Model']/parent::*/parent::*").scrollIntoView({ block: 'center', inline: 'center' });
-    //     await $("//ul[@aria-label='GPU Model']/parent::*/parent::*").click();
-    //     await $("//li[@data-value='nvidia-tesla-v100']").click();
+        //    * Select “Add GPUs“
+        await computeEngineCalculatorComponent.clickButton('Add GPUs');
 
-    //     //            * Number of GPUs: 1
-    //     // [leaving in default state]
+        //            * GPU type: NVIDIA Tesla V100
+        await computeEngineCalculatorComponent.setSelectField('GPU Model', 'nvidia-tesla-v100');
 
-    //     //    * Local SSD: 2x375 Gb
-    //     await $("//ul[@aria-label='Local SSD']/parent::*/parent::*").scrollIntoView({ block: 'center', inline: 'center' });
-    //     await $("//ul[@aria-label='Local SSD']/parent::*/parent::*").click();
-    //     await $("//ul[@aria-label='Local SSD']/parent::*/parent::*//li[@data-value='2']").click();
+        //            * Number of GPUs: 1
+        // [leaving in default state]
 
-    //     //    * Datacenter location: Frankfurt (europe-west3)
-    //     await $("//ul[@aria-label='Region']/parent::*/parent::*").scrollIntoView({ block: 'center', inline: 'center' });
-    //     await $("//ul[@aria-label='Region']/parent::*/parent::*").click();
-    //     await $("//li[@data-value='europe-west4']").scrollIntoView({ block: 'center', inline: 'center' }); // 'europe-west3' is unavailable for these settings
-    //     await $("//li[@data-value='europe-west4']").click();
+        //    * Local SSD: 2x375 Gb
+        await computeEngineCalculatorComponent.setSelectField('Local SSD', '2');
 
-    //     //    * Committed usage: 1 Year
-    //     await $('//label[@for="1-year"]/parent::*').scrollIntoView({ block: 'center', inline: 'center' });
-    //     await $('//label[@for="1-year"]/parent::*').click();
+        //    * Datacenter location: Frankfurt (europe-west3)
+        await computeEngineCalculatorComponent.setSelectField('Region', 'europe-west4');
 
-    //     // Other options leave in the default state.
-    // });
+        //    * Committed usage: 1 Year
+        await computeEngineCalculatorComponent.clickButton('1 Year');
 
-    // xit("7. Click 'Add to Estimate'.", () => {
-    //     // [Price is already calculated in the new version of app]
-    // });
 
-    // xit('8. Check the price is calculated in the right section of the calculator. There is a line “Total Estimated Cost: USD ${amount} per 1 month”', () => {
-    //     // [The way total estimated cost is displayed has changed]
-    // });
+        // Other options leave in the default state.
+    });
 
-    // it('9. click "Share" to see Total estimated cost', async () => {
-    //     // wait for the cost to be updated so that "Share" is clickable
-    //     await $('//*[contains(text(), "Service cost updated")]').waitForDisplayed();
-    //     await $('button[aria-label="Open Share Estimate dialog"]').click();
-    //     await expect($('div[aria-label="Share Estimate Dialog"]')).toHaveText(expect.stringContaining('Total estimated cost'));
-    // });
+    xit("7. Click 'Add to Estimate'.", () => {
+        // [Price is already calculated in the new version of app]
+    });
+
+    xit('8. Check the price is calculated in the right section of the calculator. There is a line “Total Estimated Cost: USD ${amount} per 1 month”', () => {
+        // [The way total estimated cost is displayed has changed]
+    });
+
+    it('9. click "Share" to see Total estimated cost', async () => {
+        // wait for the cost to be updated so that "Share" is clickable
+        await computeEngineCalculatorComponent.serviceCostUpdatedStatus.waitForDisplayed();
+        await computeEngineCalculatorComponent.clickButton("Share");
+        await expect(computeEngineCalculatorComponent.shareEstimateDialogPopUp).toHaveText(expect.stringContaining('Total estimated cost'));
+    });
 
     // it('10. click "Open estimate summary" to see Cost Estimate Summary, will be opened in separate tab browser.', async () => {
     //     await $('a[track-name="open estimate summary"]').click();
@@ -120,7 +112,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     xit("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
         // open a mock summary - switch off for final verification
         await costEstimateSummaryComponent.open();
-        
+
         // await browser.pause(5000);
         // verify Number of Instances (4)
         await expect(costEstimateSummaryComponent.getValueForSection("Number of Instances", "4"))
