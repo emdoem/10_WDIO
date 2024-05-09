@@ -1,5 +1,6 @@
 import cloudGooglePage from "../../po/pages/cloudGoogle.page.js";
 import productsCalculatorComponent from "../../po/components/productsCalculator.component.js";
+import costEstimateSummaryComponent from "../../po/components/costEstimateSummary.component.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     // it('1. Open https://cloud.google.com/.', async () => {
@@ -24,7 +25,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // opening the component should be replaced with 'waitForDisplayed'?
-        await productsCalculatorComponent.open('https://cloud.google.com/products/calculator/');
+        await productsCalculatorComponent.open();
         // COMPUTE ENGINE now appears in the pop-up, after clicking 'Add to estimate'
         await $('//*[contains(text(), "Add to estimate")]').scrollIntoView({ block: 'center', inline: 'center' }); // this is a suboptimal selector, looking for a better one
         await $('//*[contains(text(), "Add to estimate")]').click();
@@ -108,13 +109,37 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         // Check if a new tab has been opened
         expect(windowHandles.length > 1).toBe(true);
 
+        // open a mock summary in case there's an issue accessing the summary from the form
+        // await costEstimateSummaryComponent.open();
+
         // Check if new tab actually is a Cost Estimate Summary
         const costEstimateSummaryTitle = await $('//*[contains(text(), "Cost Estimate Summary")]');
-        expect(costEstimateSummaryTitle).toExist();
+        expect(costEstimateSummaryTitle).toBeDisplayed();
     });
 
-    // it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async => {
+    it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
+        // verify number of instances (4)
+        const numberOfInstancesRow = await $('//*[contains(text(), "Number of Instances")]/..');
+        // await expect(numberOfInstancesRow.$('//*[contains(text(), "4")]')).toBeDisplayed(); // .scrollIntoView({ block: 'center', inline: 'center' });
+        // await expect(numberOfInstancesRow.$('//*[contains(text(), "4")]')).toBeDisplayed(); 
+        // await expect($('//*[contains(text(), "Number of instances")]/..//*[contains(text(), "4")]')).toBeDisplayed();
+        
+        // verify operating system
+        await expect($('//*[contains(text(), "Free: Debian, CentOS, CoreOS, Ubuntu")]')).toBeDisplayed();
+        // verify provisioning model (Regular)
+        await expect($('//*[contains(text(), "Provisioning Model")]/..//*[contains(text(), "Regular")]')).toBeDisplayed();
+        // verify machine type (n1-standard-8)
+        await expect($('//*[contains(text(), "n1-standard-8")]')).toBeDisplayed();
+        // verify GPU type (NVIDIA Tesla V100)
+        await expect($('//*[contains(text(), "NVIDIA Tesla V100")]')).toBeDisplayed();
+        // verify number of GPUs (1)
 
-    // });
+        // verify Local SSD (2x375 Gb)
+
+        // verify datacenter location (europe-west4)
+        await expect($('//*[contains(text(), "europe-west4")]')).toBeDisplayed();
+        // verify commited usage (1 year)
+
+    });
 });
 
