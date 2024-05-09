@@ -27,6 +27,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // open the calculator directly if you want to skip the searching part of the script
         // await productsCalculatorComponent.open()
+        
         // COMPUTE ENGINE now appears in the pop-up, after clicking 'Add to estimate'
         await productsCalculatorComponent.clickAddToEstimateButton();
         // button is often outside of displayed layout, so need to scroll to find it
@@ -110,49 +111,45 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
         // open a mock summary - switch off for final verification
-        await costEstimateSummaryComponent.open();
+        // await costEstimateSummaryComponent.open();
 
-        await browser.pause(5000);
+        // await browser.pause(5000);
         // verify Number of Instances (4)
-        await expect(costEstimateSummaryComponent.getValue("Number of Instances")).toHaveText("4"); 
+        const numberOfInstances = await costEstimateSummaryComponent.getValue("Number of Instances");
+        expect(numberOfInstances).toHaveText("4"); 
         // this doesn't work on the generated Summary either either 
-        
-        // await expect(costEstimateSummaryComponent.getValueForSection("Number of Instances", "4"))
-        //     .toBeDisplayed(); // this only works for mock summary - why?
-        
+                
         // verify operating system
-        await expect(costEstimateSummaryComponent.getValueForSection("Operating System / Software", "Free: Debian, CentOS, CoreOS, Ubuntu"))
-            .toBeDisplayed();
+        const operatingSystem = await costEstimateSummaryComponent.getValue("Operating System / Software");
+        expect(operatingSystem).toHaveText(expect.stringContaining("Free: Debian, CentOS, CoreOS, Ubuntu"));
 
         // verify provisioning model (Regular)
-        await expect(costEstimateSummaryComponent.getValue("Provisioning Model")).toHaveText("Regular"); 
-
-        // await expect(costEstimateSummaryComponent.getValueForSection("Provisioning Model", "Regular"))
-        //     .toBeDisplayed(); // this only works for mock summary - why?
+        const provisioningModel = await costEstimateSummaryComponent.getValue("Provisioning Model");
+        expect(provisioningModel).toHaveText("Regular"); 
 
         // verify machine type (n1-standard-8)
-        await expect(costEstimateSummaryComponent.getValueForSection("Machine type", "n1-standard-8"))
-            .toBeDisplayed();
+        const machineType = await costEstimateSummaryComponent.getValue("Machine type");
+        expect(machineType).toHaveText("n1-standard-8");
 
         // verify GPU type (NVIDIA Tesla V100)
-        await expect(costEstimateSummaryComponent.getValueForSection("GPU Model", "NVIDIA Tesla V100"))
-            .toBeDisplayed();
+        const gpuType = await costEstimateSummaryComponent.getValue("GPU Model");
+        expect(gpuType).toHaveText("NVIDIA Tesla V100");
 
         // verify "Number of GPUs" (1)
-        await expect(costEstimateSummaryComponent.getValueForSection("Number of GPUs", "1"))
-            .toBeDisplayed(); // this only works for mock summary - why?
+        const numberOfGPUs = await costEstimateSummaryComponent.getValue("Number of GPUs");
+        expect(numberOfGPUs).toHaveText("1"); 
 
         // verify Local SSD (2x375 GB)
-        await expect(costEstimateSummaryComponent.getValueForSection("Local SSD", "2x375 GB"))
-            .toBeDisplayed();
+        const localSSD = await costEstimateSummaryComponent.getValue("Local SSD");
+        expect(localSSD).toHaveText("2x375 GB");
 
         // verify datacenter location (europe-west4)
-        await expect(costEstimateSummaryComponent.getValueForSection("Region", "europe-west4"))
-            .toBeDisplayed();
+        const region = await costEstimateSummaryComponent.getValue("Region");
+        expect(region).toHaveText(expect.stringContaining("europe-west4"));
 
         // verify commited usage (1 year)
-        await expect(costEstimateSummaryComponent.getValueForSection("Committed use discount options", "1 year"))
-            .toBeDisplayed(); // this only works for mock summary - why?
+        const commitedUsage = await costEstimateSummaryComponent.getValue("Committed use discount options");
+        expect(commitedUsage).toHaveText("1 year");
     });
 });
 

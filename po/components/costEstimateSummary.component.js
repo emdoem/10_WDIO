@@ -6,14 +6,7 @@ export default new class CostEstimateSummaryComponent {
         await browser.url('https://cloud.google.com/products/calculator/estimate-preview/0998dfb1-2456-4270-9103-d79529dbd2b3?hl=pl');
     }
 
-    getSection(sectionName) {
-        return $(`//*[contains(text(), "${sectionName}")]`);
-    }
-
-    getValueForSection(sectionName, value) {
-        return this.getSection(sectionName).$(`//span[contains(text(), "${value}")]`);
-    }
-
+    // get value of specific section in the summary   
     getValue(sectionName) {
         return $(`//span[text()="${sectionName}"]/following-sibling::span[1]`);
     }
