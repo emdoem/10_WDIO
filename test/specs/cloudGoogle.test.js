@@ -3,6 +3,7 @@ import productsCalculatorComponent from "../../po/components/productsCalculator.
 import costEstimateSummaryComponent from "../../po/components/costEstimateSummary.component.js";
 import searchResultsComponent from "../../po/components/searchResults.component.js";
 import computeEngineCalculatorComponent from "../../po/components/computeEngineCalculator.component.js";
+import shareEstimateDialogComponent from "../../po/components/shareEstimateDialog.component.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     it('1. Open https://cloud.google.com/.', async () => {
@@ -93,54 +94,65 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         await expect(computeEngineCalculatorComponent.shareEstimateDialogPopUp).toHaveText(expect.stringContaining('Total estimated cost'));
     });
 
-    // it('10. click "Open estimate summary" to see Cost Estimate Summary, will be opened in separate tab browser.', async () => {
-    //     await $('a[track-name="open estimate summary"]').click();
+    // maybe this step should be divided into 2 separate test cases? It's testing 2 different components?...
+    it('10. click "Open estimate summary" to see Cost Estimate Summary, will be opened in separate tab browser.', async () => {
+        await shareEstimateDialogComponent.openEstimateSummaryButton.click();
 
-    //     const windowHandles = await browser.getWindowHandles();
-    //     // Check if a new tab has been opened
-    //     expect(windowHandles.length > 1).toBe(true);
+        const windowHandles = await browser.getWindowHandles();
+        // Check if a new tab has been opened
+        expect(windowHandles.length > 1).toBe(true);
 
-    //     // open a mock summary in case there's an issue accessing the summary from the form
-    //     await costEstimateSummaryComponent.open();
+        // Check if new tab actually is a Cost Estimate Summary
+        const costEstimateSummaryTitle = await $('//*[contains(text(), "Cost Estimate Summary")]');
+        expect(costEstimateSummaryTitle).toBeDisplayed();
+    expect(costEstimateSummaryComponent.title).toBeDisplayed();
+    });
 
-    //     // Check if new tab actually is a Cost Estimate Summary
-    //     const costEstimateSummaryTitle = await $('//*[contains(text(), "Cost Estimate Summary")]');
-    //     expect(costEstimateSummaryTitle).toBeDisplayed();
-    // expect(costEstimateSummaryComponent.title).toBeDisplayed();
-    // });
-
-    xit("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
+    it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
         // open a mock summary - switch off for final verification
         await costEstimateSummaryComponent.open();
 
-        // await browser.pause(5000);
+        await browser.pause(5000);
         // verify Number of Instances (4)
-        await expect(costEstimateSummaryComponent.getValueForSection("Number of Instances", "4"))
-            .toBeDisplayed(); // this only works for mock summary - why?
+        await expect(costEstimateSummaryComponent.getValue("Number of Instances")).toHaveText("4"); 
+        // this doesn't work on the generated Summary either either 
+        
+        // await expect(costEstimateSummaryComponent.getValueForSection("Number of Instances", "4"))
+        //     .toBeDisplayed(); // this only works for mock summary - why?
+        
         // verify operating system
         await expect(costEstimateSummaryComponent.getValueForSection("Operating System / Software", "Free: Debian, CentOS, CoreOS, Ubuntu"))
             .toBeDisplayed();
+
         // verify provisioning model (Regular)
-        await expect(costEstimateSummaryComponent.getValueForSection("Provisioning Model", "Regular"))
-            .toBeDisplayed(); // this only works for mock summary - why?
+        await expect(costEstimateSummaryComponent.getValue("Provisioning Model")).toHaveText("Regular"); 
+
+        // await expect(costEstimateSummaryComponent.getValueForSection("Provisioning Model", "Regular"))
+        //     .toBeDisplayed(); // this only works for mock summary - why?
+
         // verify machine type (n1-standard-8)
         await expect(costEstimateSummaryComponent.getValueForSection("Machine type", "n1-standard-8"))
             .toBeDisplayed();
+
         // verify GPU type (NVIDIA Tesla V100)
         await expect(costEstimateSummaryComponent.getValueForSection("GPU Model", "NVIDIA Tesla V100"))
             .toBeDisplayed();
+
         // verify "Number of GPUs" (1)
         await expect(costEstimateSummaryComponent.getValueForSection("Number of GPUs", "1"))
-            .toBeDisplayed();
+            .toBeDisplayed(); // this only works for mock summary - why?
+
         // verify Local SSD (2x375 GB)
         await expect(costEstimateSummaryComponent.getValueForSection("Local SSD", "2x375 GB"))
             .toBeDisplayed();
+
         // verify datacenter location (europe-west4)
         await expect(costEstimateSummaryComponent.getValueForSection("Region", "europe-west4"))
             .toBeDisplayed();
+
         // verify commited usage (1 year)
         await expect(costEstimateSummaryComponent.getValueForSection("Committed use discount options", "1 year"))
-            .toBeDisplayed();
+            .toBeDisplayed(); // this only works for mock summary - why?
     });
 });
 

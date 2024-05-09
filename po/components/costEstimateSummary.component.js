@@ -13,4 +13,8 @@ export default new class CostEstimateSummaryComponent {
     getValueForSection(sectionName, value) {
         return this.getSection(sectionName).$(`//span[contains(text(), "${value}")]`);
     }
+
+    getValue(sectionName) {
+        return $(`//span[text()="${sectionName}"]/following-sibling::span[1]`);
+    }
 }
