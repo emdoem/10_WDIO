@@ -1,4 +1,6 @@
 import { pages } from "../../po/pages/index.js";
+import { TEST_DATA } from "../data/test-data-task3.js";
+// import fs from 'fs/promises';
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     it('1. Open https://cloud.google.com/.', async () => {
@@ -7,7 +9,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it('2. Click on the icon at the top of the portal page and enter "Google Cloud Platform Pricing Calculator" into the search field.', async () => {
         await pages('cloud_google').headerComponent.searchIcon.click();
-        await pages('cloud_google').headerComponent.searchInputField.setValue('Google Cloud Platform Pricing Calculator');
+        await pages('cloud_google').headerComponent.searchInputField.setValue(TEST_DATA.SEARCH_INPUT);
     });
 
     it('3. Perform the search.', async () => {
@@ -17,7 +19,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it('4. Click "Google Cloud Platform Pricing Calculator" in the search results and go to the calculator page.', async () => {
         // omitting "Platform" because the naming has changed
-        await pages('search_results').getFirstResultContaining("Google Cloud Pricing Calculator").click();
+        await pages('search_results').getFirstResultContaining(TEST_DATA.SEARCH_RESULT).click();
     });
 
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
@@ -33,46 +35,41 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     });
 
     it('6. Fill out the form with the following data:', async () => {
-        //    * Number of instances: 4
-        await pages('compute_engine_calculator').setNumberOfInstances('4');
+        const {
+            numberOfInstances,
+            machineType,
+            addGPUs,
+            gpuType,
+            localSSD,
+            region,
+            commitedUsage
+        } = TEST_DATA.COMPUTE_ENGINE;
 
+        await pages('compute_engine_calculator').setNumberOfInstances(numberOfInstances.value);
         //    * What are these instances for?: leave blank
         // [this isn't part of the form anymore]
-
         //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
         // [leaving in default state]
-
         //    * Provisioning model: Regular
         // [leaving in default state]
-
         //    * Machine Family: General purpose 
         // [leaving in default state]
-
         //    * Series: N1 
         // [leaving in default state]
 
-        //    * Machine type: n1-standard-8 (vCPUs: 8, RAM: 30 GB)
-        await pages('compute_engine_calculator').setSelectField('Machine type', 'n1-standard-8');
-
-        //    * Select “Add GPUs“
-        await pages('compute_engine_calculator').clickButton('Add GPUs');
-
-        //            * GPU type: NVIDIA Tesla V100
-        await pages('compute_engine_calculator').setSelectField('GPU Model', 'nvidia-tesla-v100');
+        await pages('compute_engine_calculator').setSelectField(machineType.title, machineType.value);
+        if (addGPUs.value) {
+            await pages('compute_engine_calculator').clickButton(addGPUs.title);
+            await pages('compute_engine_calculator').setSelectField(gpuType.title, 'nvidia-tesla-v100'); // fix selector to avoid hard-coding here
+        }
 
         //            * Number of GPUs: 1
         // [leaving in default state]
-
         //    * Local SSD: 2x375 Gb
-        await pages('compute_engine_calculator').setSelectField('Local SSD', '2');
+        await pages('compute_engine_calculator').setSelectField(localSSD.title, '2'); // fix selector to avoid hard-coding here
 
-        //    * Datacenter location: Frankfurt (europe-west3)
-        await pages('compute_engine_calculator').setSelectField('Region', 'europe-west4');
-
-        //    * Committed usage: 1 Year
-        await pages('compute_engine_calculator').clickButton('1 Year');
-
-        // Other options leave in the default state.
+        await pages('compute_engine_calculator').setSelectField(region.title, region.value); // europe-west3 is unavailable for this set-up
+        await pages('compute_engine_calculator').clickButton(commitedUsage.value);
     });
 
     xit("7. Click 'Add to Estimate'.", () => {
@@ -103,45 +100,47 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     });
 
     it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
+        const {
+            numberOfInstances,
+            operatingSystem,
+            provisioningModel,
+            machineType,
+            gpuType,
+            numberOfGPUs,
+            localSSD,
+            region,
+            commitedUsage
+        } = TEST_DATA.COMPUTE_ENGINE;
+
         // open a mock summary - switch off for final verification
         // await costEstimateSummaryComponent.open();
 
-        // verify Number of Instances (4)
-        const numberOfInstances = await pages('cost_estimate_summary').getValue("Number of Instances");
-        expect(numberOfInstances).toHaveText("4");
-        // this doesn't work on the generated Summary either either 
+        const numberOfInstancesRow = await pages('cost_estimate_summary').getValue(numberOfInstances.title);
+        expect(numberOfInstancesRow).toHaveText(numberOfInstances.value);
 
-        // verify operating system
-        const operatingSystem = await pages('cost_estimate_summary').getValue("Operating System / Software");
-        expect(operatingSystem).toHaveText(expect.stringContaining("Free: Debian, CentOS, CoreOS, Ubuntu"));
+        const operatingSystemRow = await pages('cost_estimate_summary').getValue(operatingSystem.title);
+        expect(operatingSystemRow).toHaveText(expect.stringContaining(operatingSystem.value));
 
-        // verify provisioning model (Regular)
-        const provisioningModel = await pages('cost_estimate_summary').getValue("Provisioning Model");
-        expect(provisioningModel).toHaveText("Regular");
+        const provisioningModelRow = await pages('cost_estimate_summary').getValue(provisioningModel.title);
+        expect(provisioningModelRow).toHaveText(provisioningModel.value);
 
-        // verify machine type (n1-standard-8)
-        const machineType = await pages('cost_estimate_summary').getValue("Machine type");
-        expect(machineType).toHaveText("n1-standard-8");
+        const machineTypeRow = await pages('cost_estimate_summary').getValue(machineType.title);
+        expect(machineTypeRow).toHaveText(machineType.value);
 
-        // verify GPU type (NVIDIA Tesla V100)
-        const gpuType = await pages('cost_estimate_summary').getValue("GPU Model");
-        expect(gpuType).toHaveText("NVIDIA Tesla V100");
+        const gpuTypeRow = await pages('cost_estimate_summary').getValue(gpuType.title);
+        expect(gpuTypeRow).toHaveText(gpuType.value);
 
-        // verify "Number of GPUs" (1)
-        const numberOfGPUs = await pages('cost_estimate_summary').getValue("Number of GPUs");
-        expect(numberOfGPUs).toHaveText("1");
+        const numberOfGPUsRow = await pages('cost_estimate_summary').getValue(numberOfGPUs.title);
+        expect(numberOfGPUsRow).toHaveText(numberOfGPUs.value);
 
-        // verify Local SSD (2x375 GB)
-        const localSSD = await pages('cost_estimate_summary').getValue("Local SSD");
-        expect(localSSD).toHaveText("2x375 GB");
+        const localSSDRow = await pages('cost_estimate_summary').getValue(localSSD.title);
+        expect(localSSDRow).toHaveText(localSSD.value);
 
-        // verify datacenter location (europe-west4)
-        const region = await pages('cost_estimate_summary').getValue("Region");
-        expect(region).toHaveText(expect.stringContaining("europe-west4"));
+        const regionRow = await pages('cost_estimate_summary').getValue(region.title);
+        expect(regionRow).toHaveText(expect.stringContaining(region.value));
 
-        // verify commited usage (1 year)
-        const commitedUsage = await pages('cost_estimate_summary').getValue("Committed use discount options");
-        expect(commitedUsage).toHaveText("1 year");
+        const commitedUsageRow = await pages('cost_estimate_summary').getValue(commitedUsage.title);
+        expect(commitedUsageRow).toHaveText(commitedUsage.value);
     });
 });
 
