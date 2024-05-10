@@ -1,9 +1,11 @@
-export default new class ComputeEngineCalculator {
-    get numberOfInstancesInputField() { return $("div.QiFlid label input") } 
+import shareEstimateDialogComponent from "../components/shareEstimateDialog.component.js"
+
+export default new class ComputeEngineCalculatorPage {
+    get shareEstimateDialogComponent() { return shareEstimateDialogComponent }
+    get numberOfInstancesInputField() { return $("div.QiFlid label input") }
     // this is a terrible selector, but neither <label> or <input> have any distinguishable properties
 
     get serviceCostUpdatedStatus() { return $('//*[contains(text(), "Service cost updated")]') }
-    get shareEstimateDialogPopUp() { return $('div[aria-label="Share Estimate Dialog"]') }
 
     getSelectField(label) {
         return $(`//ul[@aria-label='${label}']/parent::*/parent::*`);

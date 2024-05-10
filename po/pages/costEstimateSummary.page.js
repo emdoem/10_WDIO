@@ -1,4 +1,4 @@
-export default new class CostEstimateSummaryComponent {
+export default new class CostEstimateSummaryPage {
     get title() { return $('//*[contains(text(), "Cost Estimate Summary")]') }
 
     // open a mock summary - in case there's an issue accessing it from the form
