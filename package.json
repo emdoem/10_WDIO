@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "wdio run ./wdio.conf.js"
+    "test": "wdio run ./config/wdio.conf.js",
+    "test-smoke": "wdio run ./config/wdio-smoke.conf.js"
   },
   "keywords": [],
   "author": "",

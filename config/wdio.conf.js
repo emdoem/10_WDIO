@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { TEST_DATA } from "../test/data/test-data-task3.js";
 
 export const config = {
     //
@@ -23,7 +24,7 @@ export const config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './test/specs/**/*.js'
+        '../test/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -203,8 +204,9 @@ export const config = {
      * Hook that gets executed before the suite starts
      * @param {object} suite suite details
      */
-    // beforeSuite: function (suite) {
-    // },
+    beforeSuite: function (suite) {
+        global.TEST_DATA = TEST_DATA;
+    },
     /**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */

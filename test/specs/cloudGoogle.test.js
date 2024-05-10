@@ -1,6 +1,4 @@
 import { pages } from "../../po/pages/index.js";
-import { TEST_DATA } from "../data/test-data-task3.js";
-// import fs from 'fs/promises';
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     it('1. Open https://cloud.google.com/.', async () => {
@@ -42,7 +40,8 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
             gpuType,
             localSSD,
             region,
-            commitedUsage
+            commitedUsage,
+            operatingSystem
         } = TEST_DATA.COMPUTE_ENGINE;
 
         await pages('compute_engine_calculator').setNumberOfInstances(numberOfInstances.value);
@@ -50,7 +49,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         //    * What are these instances for?: leave blank
         // [this isn't part of the form anymore]
         //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
-        // [leaving in default state]
+        await pages('compute_engine_calculator').setSelectField(operatingSystem.title, operatingSystem.value)
         //    * Provisioning model: Regular
         // [leaving in default state]
         //    * Machine Family: General purpose 
@@ -92,7 +91,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     // maybe this step should be divided into 2 separate test cases? It's testing 2 different pages?...
     it('10. click "Open estimate summary" to see Cost Estimate Summary, will be opened in separate tab browser.', async () => {
         const currentWindowHandle = await browser.getWindowHandle();
-        
+
         await pages('compute_engine_calculator').shareEstimateDialogComponent.openEstimateSummaryButton.click();
 
         const windowHandles = await browser.getWindowHandles();
