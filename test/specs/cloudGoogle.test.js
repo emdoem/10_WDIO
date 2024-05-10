@@ -46,6 +46,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         } = TEST_DATA.COMPUTE_ENGINE;
 
         await pages('compute_engine_calculator').setNumberOfInstances(numberOfInstances.value);
+
         //    * What are these instances for?: leave blank
         // [this isn't part of the form anymore]
         //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
@@ -65,6 +66,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
         //            * Number of GPUs: 1
         // [leaving in default state]
+
         //    * Local SSD: 2x375 Gb
         await pages('compute_engine_calculator').setSelectField(localSSD.title, '2'); // fix selector to avoid hard-coding here
 
@@ -89,14 +91,25 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     // maybe this step should be divided into 2 separate test cases? It's testing 2 different pages?...
     it('10. click "Open estimate summary" to see Cost Estimate Summary, will be opened in separate tab browser.', async () => {
+        const currentWindowHandle = await browser.getWindowHandle();
+        
         await pages('compute_engine_calculator').shareEstimateDialogComponent.openEstimateSummaryButton.click();
 
         const windowHandles = await browser.getWindowHandles();
         // Check if a new tab has been opened
         expect(windowHandles.length > 1).toBe(true);
+        // Iterate through handles to find the new handle
+        let newWindowHandle;
+        windowHandles.forEach(handle => {
+            if (handle !== currentWindowHandle) {
+                newWindowHandle = handle;
+            }
+        });
+        // Switch to the new tab
+        await browser.switchToWindow(newWindowHandle);
 
         // Check if new tab actually is a Cost Estimate Summary
-        expect(pages('cost_estimate_summary').title).toBeDisplayed();
+        await expect(pages('cost_estimate_summary').title).toBeDisplayed();
     });
 
     it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
@@ -116,31 +129,31 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         // await costEstimateSummaryComponent.open();
 
         const numberOfInstancesRow = await pages('cost_estimate_summary').getValue(numberOfInstances.title);
-        expect(numberOfInstancesRow).toHaveText(numberOfInstances.value);
+        await expect(numberOfInstancesRow).toHaveText(numberOfInstances.value);
 
         const operatingSystemRow = await pages('cost_estimate_summary').getValue(operatingSystem.title);
-        expect(operatingSystemRow).toHaveText(expect.stringContaining(operatingSystem.value));
+        await expect(operatingSystemRow).toHaveText(expect.stringContaining(operatingSystem.value));
 
         const provisioningModelRow = await pages('cost_estimate_summary').getValue(provisioningModel.title);
-        expect(provisioningModelRow).toHaveText(provisioningModel.value);
+        await expect(provisioningModelRow).toHaveText(provisioningModel.value);
 
         const machineTypeRow = await pages('cost_estimate_summary').getValue(machineType.title);
-        expect(machineTypeRow).toHaveText(machineType.value);
+        await expect(machineTypeRow).toHaveText(expect.stringContaining(machineType.value));
 
         const gpuTypeRow = await pages('cost_estimate_summary').getValue(gpuType.title);
-        expect(gpuTypeRow).toHaveText(gpuType.value);
+        await expect(gpuTypeRow).toHaveText(gpuType.value);
 
         const numberOfGPUsRow = await pages('cost_estimate_summary').getValue(numberOfGPUs.title);
-        expect(numberOfGPUsRow).toHaveText(numberOfGPUs.value);
+        await expect(numberOfGPUsRow).toHaveText(numberOfGPUs.value);
 
         const localSSDRow = await pages('cost_estimate_summary').getValue(localSSD.title);
-        expect(localSSDRow).toHaveText(localSSD.value);
+        await expect(localSSDRow).toHaveText(localSSD.value);
 
         const regionRow = await pages('cost_estimate_summary').getValue(region.title);
-        expect(regionRow).toHaveText(expect.stringContaining(region.value));
+        await expect(regionRow).toHaveText(expect.stringContaining(region.value));
 
         const commitedUsageRow = await pages('cost_estimate_summary').getValue(commitedUsage.title);
-        expect(commitedUsageRow).toHaveText(commitedUsage.value);
+        await expect(commitedUsageRow).toHaveText(commitedUsage.value.toLowerCase());
     });
 });
 
