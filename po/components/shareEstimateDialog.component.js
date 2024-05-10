@@ -1,4 +1,4 @@
-import BaseComponent from "./common/BaseComponent.js"
+import BaseComponent from "./common/base.component.js"
 
 export default new class ShareEstimateDialogComponent extends BaseComponent {
     constructor() {

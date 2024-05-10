@@ -1,4 +1,4 @@
-import BaseComponent from "./BaseComponent.js";
+import BaseComponent from "./base.component.js";
 
 export default new class HeaderComponent extends BaseComponent {
     constructor() {

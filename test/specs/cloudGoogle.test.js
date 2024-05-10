@@ -4,6 +4,11 @@ import costEstimateSummaryPage from "../../po/pages/costEstimateSummary.page.js"
 import searchResultsPage from "../../po/pages/searchResults.page.js";
 import computeEngineCalculatorPage from "../../po/pages/computeEngineCalculator.page.js";
 
+const task3TestData = {
+    numberOfInstances: '4',
+    
+}
+
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     it('1. Open https://cloud.google.com/.', async () => {
         await cloudGooglePage.open();

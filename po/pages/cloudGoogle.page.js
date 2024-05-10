@@ -1,10 +1,7 @@
-import headerComponent from "../components/common/headerComponent.js";
+import BasePage from "./base.page.js";
 
-export default new class CloudGooglePage {
-    get headerComponent() { return headerComponent }
-    
-    // open the tested page
-    async open() {
-        await browser.url('https://cloud.google.com/');
+export default new class CloudGooglePage extends BasePage {
+    constructor() {
+        super('/');
     }
 };
