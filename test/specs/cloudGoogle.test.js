@@ -8,7 +8,7 @@ import {
     computeEngineCalculatorPage,
     costEstimateSummaryPage,
     productsCalculatorPage,
-    searchResultsPage    
+    searchResultsPage
 } from "../../po/pages/index.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
@@ -103,56 +103,70 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     // maybe this step should be divided into 2 separate test cases? It's testing 2 different pages?...
     it('10. click "Open estimate summary" to see Cost Estimate Summary, will be opened in separate tab browser.', async () => {
+        const currentWindowHandle = await browser.getWindowHandle();
+
         await computeEngineCalculatorPage.shareEstimateDialogComponent.openEstimateSummaryButton.click();
 
         const windowHandles = await browser.getWindowHandles();
         // Check if a new tab has been opened
         expect(windowHandles.length > 1).toBe(true);
+        // Iterate through handles to find the new handle
+        let newWindowHandle;
+        windowHandles.forEach(handle => {
+            if (handle !== currentWindowHandle) {
+                newWindowHandle = handle;
+            }
+        });
+        // Switch to the new tab
+        await browser.switchToWindow(newWindowHandle);
 
         // Check if new tab actually is a Cost Estimate Summary
-        expect(costEstimateSummaryPage.title).toBeDisplayed();
+        await expect(costEstimateSummaryPage.title).toBeDisplayed();
     });
 
     it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
         // open a mock summary - switch off for final verification
-        // await costEstimateSummaryComponent.open();
+        // await costEstimateSummaryPage.open();
+
+        const newSummaryUrl = await browser.getUrl();
+        console.log(newSummaryUrl);
 
         // verify Number of Instances (4)
         const numberOfInstances = await costEstimateSummaryPage.getValue("Number of Instances");
-        expect(numberOfInstances).toHaveText("4");
+        await expect(numberOfInstances).toHaveText("4");
         // this doesn't work on the generated Summary either either 
 
         // verify operating system
         const operatingSystem = await costEstimateSummaryPage.getValue("Operating System / Software");
-        expect(operatingSystem).toHaveText(expect.stringContaining("Free: Debian, CentOS, CoreOS, Ubuntu"));
+        await expect(operatingSystem).toHaveText(expect.stringContaining("Free: Debian, CentOS, CoreOS, Ubuntu"));
 
         // verify provisioning model (Regular)
         const provisioningModel = await costEstimateSummaryPage.getValue("Provisioning Model");
-        expect(provisioningModel).toHaveText("Regular");
+        await expect(provisioningModel).toHaveText("Regular");
 
         // verify machine type (n1-standard-8)
         const machineType = await costEstimateSummaryPage.getValue("Machine type");
-        expect(machineType).toHaveText("n1-standard-8");
+        await expect(machineType).toHaveText(expect.stringContaining("n1-standard-8"));
 
         // verify GPU type (NVIDIA Tesla V100)
         const gpuType = await costEstimateSummaryPage.getValue("GPU Model");
-        expect(gpuType).toHaveText("NVIDIA Tesla V100");
+        await expect(gpuType).toHaveText("NVIDIA Tesla V100");
 
         // verify "Number of GPUs" (1)
         const numberOfGPUs = await costEstimateSummaryPage.getValue("Number of GPUs");
-        expect(numberOfGPUs).toHaveText("1");
+        await expect(numberOfGPUs).toHaveText("1");
 
         // verify Local SSD (2x375 GB)
         const localSSD = await costEstimateSummaryPage.getValue("Local SSD");
-        expect(localSSD).toHaveText("2x375 GB");
+        await expect(localSSD).toHaveText("2x375 GB");
 
         // verify datacenter location (europe-west4)
         const region = await costEstimateSummaryPage.getValue("Region");
-        expect(region).toHaveText(expect.stringContaining("europe-west4"));
+        await expect(region).toHaveText(expect.stringContaining("europe-west4"));
 
         // verify commited usage (1 year)
         const commitedUsage = await costEstimateSummaryPage.getValue("Committed use discount options");
-        expect(commitedUsage).toHaveText("1 year");
+        await expect(commitedUsage).toHaveText("1 year");
     });
 });
 
