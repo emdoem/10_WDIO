@@ -1,13 +1,15 @@
-import cloudGooglePage from "../../po/pages/cloudGoogle.page.js";
-import productsCalculatorPage from "../../po/pages/productsCalculator.page.js";
-import costEstimateSummaryPage from "../../po/pages/costEstimateSummary.page.js";
-import searchResultsPage from "../../po/pages/searchResults.page.js";
-import computeEngineCalculatorPage from "../../po/pages/computeEngineCalculator.page.js";
-
-const task3TestData = {
-    numberOfInstances: '4',
-    
-}
+// import cloudGooglePage from "../../po/pages/cloudGoogle.page.js";
+// import productsCalculatorPage from "../../po/pages/productsCalculator.page.js";
+// import costEstimateSummaryPage from "../../po/pages/costEstimateSummary.page.js";
+// import searchResultsPage from "../../po/pages/searchResults.page.js";
+// import computeEngineCalculatorPage from "../../po/pages/computeEngineCalculator.page.js";
+import {
+    cloudGooglePage,
+    computeEngineCalculatorPage,
+    costEstimateSummaryPage,
+    productsCalculatorPage,
+    searchResultsPage    
+} from "../../po/pages/index.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     it('1. Open https://cloud.google.com/.', async () => {
