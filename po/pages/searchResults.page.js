@@ -1,4 +1,4 @@
-export default new class SearchResultsPage {
+export default class SearchResultsPage {
     getFirstResultContaining (searchInput) {
         return $(`//b[contains(text(), "${searchInput}")]`)
     }

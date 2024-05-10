@@ -1,6 +1,6 @@
 import shareEstimateDialogComponent from "../components/shareEstimateDialog.component.js"
 
-export default new class ComputeEngineCalculatorPage {
+export default class ComputeEngineCalculatorPage {
     get shareEstimateDialogComponent() { return shareEstimateDialogComponent }
     get numberOfInstancesInputField() { return $("div.QiFlid label input") }
     // this is a terrible selector, but neither <label> or <input> have any distinguishable properties

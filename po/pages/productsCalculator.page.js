@@ -1,4 +1,4 @@
-export default new class ProductsCalculatorPage {
+export default class ProductsCalculatorPage {
     get addToEstimateButton() { return $('//span[contains(text(), "Add to estimate")]') }
     get computeEngineButton() { return $("//h2[contains(text(), 'Compute Engine')]") }
 

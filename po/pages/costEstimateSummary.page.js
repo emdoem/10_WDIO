@@ -1,6 +1,6 @@
 import BasePage from "./base.page.js";
 
-export default new class CostEstimateSummaryPage extends BasePage {
+export default class CostEstimateSummaryPage extends BasePage {
     constructor() {
         // a mock-up Cost Estimate Summary for testing UI
         super('/products/calculator/estimate-preview/0998dfb1-2456-4270-9103-d79529dbd2b3?hl=pl');
