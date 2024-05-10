@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const config = {
     //
     // ====================
@@ -113,7 +115,7 @@ export const config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'mocha',
-    
+
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -230,8 +232,21 @@ export const config = {
      * @param {boolean} result.passed    true if test has passed, otherwise false
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterTest: async (test, context, result) => {
+        // take a screenshot anytime a test fails and throws an error
+        if (result.error) {
+            console.log(`Screenshot for the failed test ${test.title} is saved`);
+
+            // test titles to long to save file names with them
+            const testTitleShort = test.title.slice(0, 10);
+            const dateAndTime = dayjs(Date.now()).format('YYYY-MM-DD-HH-mm-ss');
+            const filename = testTitleShort + '-' + dateAndTime + '.png';
+            const dirPath = './artifacts/screenshots/';
+
+            await browser.saveScreenshot(dirPath + filename);
+        }
+
+    },
 
 
     /**

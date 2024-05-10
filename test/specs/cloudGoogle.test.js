@@ -1,10 +1,5 @@
 import { pages } from "../../po/pages/index.js";
 
-const task3TestData = {
-    numberOfInstances: '4',
-    
-}
-
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
     it('1. Open https://cloud.google.com/.', async () => {
         await pages('cloud_google').open();
