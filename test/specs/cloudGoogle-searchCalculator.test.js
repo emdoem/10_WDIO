@@ -20,5 +20,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         await pages('search_results').getFirstResultContaining(TEST_DATA.SEARCH_RESULT).click();
 
         // add a check, to see if the calculator was opened
+        const addToEstimateButton = await pages('products_calculator').addToEstimateButton;
+        await expect(addToEstimateButton).toBeDisplayed();
     });
 });
