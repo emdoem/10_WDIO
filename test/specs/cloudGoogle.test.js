@@ -49,7 +49,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         //    * What are these instances for?: leave blank
         // [this isn't part of the form anymore]
         //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
-        await pages('compute_engine_calculator').setSelectField(operatingSystem.title, operatingSystem.value)
+        // await pages('compute_engine_calculator').setSelectField(operatingSystem.title, operatingSystem.value)
         //    * Provisioning model: Regular
         // [leaving in default state]
         //    * Machine Family: General purpose 
@@ -73,11 +73,11 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         await pages('compute_engine_calculator').clickButton(commitedUsage.value);
     });
 
-    xit("7. Click 'Add to Estimate'.", () => {
+    xit("7. Click 'Add to Estimate'. - skipped: app UI changed", () => {
         // [Price is already calculated in the new version of app]
     });
 
-    xit('8. Check the price is calculated in the right section of the calculator. There is a line “Total Estimated Cost: USD ${amount} per 1 month”', () => {
+    xit('8. Check the price is calculated in the right section of the calculator. There is a line “Total Estimated Cost: USD ${amount} per 1 month” - skipped: app UI changed', () => {
         // [The way total estimated cost is displayed has changed]
     });
 
