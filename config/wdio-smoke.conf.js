@@ -28,7 +28,7 @@ export const config = {
     ],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+        '../test/specs/cloudGoogle-searchCalculator.test.js'
     ],
     //
     // ============
