@@ -1,5 +1,7 @@
 export default class SearchResultsPage {
-    getFirstResultContaining (searchInput) {
+    get searchTitle() { return $('h1.devsite-search-title') }
+
+    getFirstResultContaining(searchInput) {
         return $(`//b[contains(text(), "${searchInput}")]`)
     }
 }
