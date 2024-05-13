@@ -28,7 +28,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // open the calculator directly if you want to skip the searching part of the script
-        // await productsCalculatorComponent.open()
+        // await productsCalculatorPage.open()
 
         // COMPUTE ENGINE now appears in the pop-up, after clicking 'Add to estimate'
         await productsCalculatorPage.clickAddToEstimateButton();
@@ -69,7 +69,6 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     it('6.6 Fill out the form * Machine type', async () => {
         //    * Machine type: n1-standard-8 (vCPUs: 8, RAM: 30 GB)
         await computeEngineCalculatorPage.setSelectField('Machine type', 'n1-standard-8');
-        await browser.pause(5000)
     });
 
     it('6.7 Fill out the form * “Add GPUs“?', async () => {
@@ -84,7 +83,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it('6.9 Fill out the form * Number of GPUs', async () => {
         //            * Number of GPUs: 1
-        // [leaving in default state]
+        await computeEngineCalculatorPage.setSelectField('Number of GPUs', '1');
     });
 
     it('6.10 Fill out the form * Local SSD', async () => {
