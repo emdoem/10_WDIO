@@ -1,8 +1,3 @@
-// import cloudGooglePage from "../../po/pages/cloudGoogle.page.js";
-// import productsCalculatorPage from "../../po/pages/productsCalculator.page.js";
-// import costEstimateSummaryPage from "../../po/pages/costEstimateSummary.page.js";
-// import searchResultsPage from "../../po/pages/searchResults.page.js";
-// import computeEngineCalculatorPage from "../../po/pages/computeEngineCalculator.page.js";
 import {
     cloudGooglePage,
     computeEngineCalculatorPage,
@@ -43,43 +38,66 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         await productsCalculatorPage.clickComputeEngineButton();
     });
 
-    it('6. Fill out the form with the following data:', async () => {
+    it('6.1 Fill out the form * Number of instances: 4', async () => {
         //    * Number of instances: 4
         await computeEngineCalculatorPage.setNumberOfInstances('4');
+    });
 
-        //    * What are these instances for?: leave blank
-        // [this isn't part of the form anymore]
+    //    * What are these instances for?: leave blank
+    // [this isn't part of the form anymore]
 
+    it('6.2 Fill out the form * Operating System / Software: Free: Debian, CentOS...', async () => {
         //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
-        // [leaving in default state]
+        await computeEngineCalculatorPage.setSelectField('Operating System / Software', 'free-debian-centos');
+    });
 
+    it('6.3 Fill out the form * Provisioning model', async () => {
         //    * Provisioning model: Regular
-        // [leaving in default state]
+        await computeEngineCalculatorPage.clickButton('Regular');
+    });
 
+    it('6.4 Fill out the form * Machine Family', async () => {
         //    * Machine Family: General purpose 
-        // [leaving in default state]
+        // await computeEngineCalculatorPage.setSelectField('Machine Family', 'general-purpose');
+    });
 
+    it('6.5 Fill out the form * Series', async () => {
         //    * Series: N1 
-        // [leaving in default state]
+        await computeEngineCalculatorPage.setSelectField('Series', 'n1');
+    });
 
+    it('6.6 Fill out the form * Machine type', async () => {
         //    * Machine type: n1-standard-8 (vCPUs: 8, RAM: 30 GB)
         await computeEngineCalculatorPage.setSelectField('Machine type', 'n1-standard-8');
+        await browser.pause(5000)
+    });
 
+    it('6.7 Fill out the form * “Add GPUs“?', async () => {
         //    * Select “Add GPUs“
         await computeEngineCalculatorPage.clickButton('Add GPUs');
+    });
 
+    it('6.8 Fill out the form * GPU type', async () => {
         //            * GPU type: NVIDIA Tesla V100
         await computeEngineCalculatorPage.setSelectField('GPU Model', 'nvidia-tesla-v100');
+    });
 
+    it('6.9 Fill out the form * Number of GPUs', async () => {
         //            * Number of GPUs: 1
         // [leaving in default state]
+    });
 
+    it('6.10 Fill out the form * Local SSD', async () => {
         //    * Local SSD: 2x375 Gb
         await computeEngineCalculatorPage.setSelectField('Local SSD', '2');
+    });
 
+    it('6.11 Fill out the form * Datacenter location', async () => {
         //    * Datacenter location: Frankfurt (europe-west3)
         await computeEngineCalculatorPage.setSelectField('Region', 'europe-west4');
+    });
 
+    it('6.12 Fill out the form * Committed usage', async () => {
         //    * Committed usage: 1 Year
         await computeEngineCalculatorPage.clickButton('1 Year');
 
