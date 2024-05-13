@@ -7,24 +7,24 @@ import {
 } from "../../po/pages/index.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
-    // it('1. Open https://cloud.google.com/.', async () => {
-    //     await cloudGooglePage.open();
-    // });
+    it('1. Open https://cloud.google.com/.', async () => {
+        await cloudGooglePage.open();
+    });
 
-    // it('2. Click on the icon at the top of the portal page and enter "Google Cloud Platform Pricing Calculator" into the search field.', async () => {
-    //     await cloudGooglePage.headerComponent.searchIcon.click();
-    //     await cloudGooglePage.headerComponent.searchInputField.setValue('Google Cloud Platform Pricing Calculator');
-    // });
+    it('2. Click on the icon at the top of the portal page and enter "Google Cloud Platform Pricing Calculator" into the search field.', async () => {
+        await cloudGooglePage.headerComponent.searchIcon.click();
+        await cloudGooglePage.headerComponent.searchInputField.setValue('Google Cloud Platform Pricing Calculator');
+    });
 
-    // it('3. Perform the search.', async () => {
-    //     // there apparently is no visible 'search' button, which is weird
-    //     await browser.keys(['Enter']);
-    // });
+    it('3. Perform the search.', async () => {
+        // there apparently is no visible 'search' button, which is weird
+        await browser.keys(['Enter']);
+    });
 
-    // it('4. Click "Google Cloud Platform Pricing Calculator" in the search results and go to the calculator page.', async () => {
-    //     // omitting "Platform" because the naming has changed
-    //     await searchResultsPage.getFirstResultContaining("Google Cloud Pricing Calculator").click();
-    // });
+    it('4. Click "Google Cloud Platform Pricing Calculator" in the search results and go to the calculator page.', async () => {
+        // omitting "Platform" because the naming has changed
+        await searchResultsPage.getFirstResultContaining("Google Cloud Pricing Calculator").click();
+    });
 
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // open the calculator directly if you want to skip the searching part of the script
