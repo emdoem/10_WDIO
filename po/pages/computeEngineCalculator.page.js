@@ -15,16 +15,17 @@ export default new class ComputeEngineCalculatorPage {
     }
 
     getSelectField(label) {
+        if (label === 'Local SSD' || label === 'Number of GPUs') { return $(`//ul[@aria-label='${label}']/parent::*/parent::*//div[@role='combobox']`) }
         return $(`//ul[@aria-label='${label}']/parent::*/parent::*`);
     }
 
-    getListItem(value) {
-        // because value='2' is not very unique
-        if (value === '2') {
-            return $("//ul[@aria-label='Local SSD']/parent::*/parent::*//li[@data-value='2']");
+    getListItem(label, value) {
+        // because value='2' is not a very unique data-value:
+        if (label === 'Local SSD' || label === 'Number of GPUs') {
+            return $(`//ul[@aria-label='${label}']//li[@data-value='${value}']`);
         }
 
-        return $(`//li[contains(@data-value, '${value}')]`);
+        return this.getSelectField(label).$(`//li[contains(@data-value, '${value}')]`);
     }
 
     getButton(name) {
@@ -50,6 +51,6 @@ export default new class ComputeEngineCalculatorPage {
     async setSelectField(label, value) {
         await this.getFormField(label).scrollIntoView({ block: 'center', inline: 'center' });
         await this.getSelectField(label).click();
-        await this.getListItem(value).click();
+        await this.getListItem(label, value).click();
     }
 }
