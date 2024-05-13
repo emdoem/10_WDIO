@@ -1,6 +1,4 @@
 export const TEST_DATA = {
-    SEARCH_INPUT: "Google Cloud Platform Pricing Calculator",
-    SEARCH_RESULT: "Google Cloud Pricing Calculator",
     COMPUTE_ENGINE: {
         numberOfInstances: {
             title: "Number of Instances",
@@ -8,11 +6,18 @@ export const TEST_DATA = {
         },
         operatingSystem: {
             title: "Operating System / Software",
-            value: "Paid: Windows Server"
+            value: "Paid: Windows Server",
+            data_value: 'paid-windows-server'
         },
         provisioningModel: {
             title: "Provisioning Model",
             value: "Regular"
+        },
+        series: {
+            title: "Series",
+            value: "N1",
+            // this needs to go. implement .toLowerCase() instead
+            data_value: "n1"
         },
         machineType: { 
             title: "Machine type",
@@ -32,7 +37,8 @@ export const TEST_DATA = {
         },
         localSSD: {
             title: "Local SSD",
-            value: "1x375 GB"
+            value: "1x375 GB",
+            data_value: "1"
         },
         region: {
             title: "Region",
