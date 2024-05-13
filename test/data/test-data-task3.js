@@ -8,11 +8,18 @@ export const TEST_DATA = {
         },
         operatingSystem: {
             title: "Operating System / Software",
-            value: "Free: Debian, CentOS, CoreOS, Ubuntu"
+            value: "Free: Debian, CentOS, CoreOS, Ubuntu",
+            data_value: 'free-debian-centos'
         },
         provisioningModel: {
             title: "Provisioning Model",
             value: "Regular"
+        },
+        series: {
+            title: "Series",
+            value: "N1",
+            // this needs to go. implement .toLowerCase() instead
+            data_value: "n1"
         },
         machineType: { 
             title: "Machine type",
@@ -24,7 +31,8 @@ export const TEST_DATA = {
         },
         gpuType: {
             title: "GPU Model",
-            value: "NVIDIA Tesla V100"
+            value: "NVIDIA Tesla V100",
+            data_value: 'nvidia-tesla-v100'
         },
         numberOfGPUs: {
             title: "Number of GPUs",
@@ -32,7 +40,8 @@ export const TEST_DATA = {
         },
         localSSD: {
             title: "Local SSD",
-            value: "2x375 GB"
+            value: "2x375 GB",
+            data_value: "2"
         },
         region: {
             title: "Region",

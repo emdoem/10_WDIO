@@ -1,6 +1,7 @@
 import { pages } from "../../po/pages/index.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
+    
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // open the calculator directly if you want to skip the searching part of the script
         await pages('products_calculator').open()
@@ -13,44 +14,60 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         await pages('products_calculator').clickComputeEngineButton();
     });
 
-    it('6. Fill out the form with the following data:', async () => {
-        const {
-            numberOfInstances,
-            machineType,
-            addGPUs,
-            gpuType,
-            localSSD,
-            region,
-            commitedUsage,
-            operatingSystem
-        } = TEST_DATA.COMPUTE_ENGINE;
-
+    it('6.1 Fill out the form * Number of Instances', async () => {
+        const { numberOfInstances } = TEST_DATA.COMPUTE_ENGINE;
         await pages('compute_engine_calculator').setNumberOfInstances(numberOfInstances.value);
+    });
 
-        //    * What are these instances for?: leave blank
-        // [this isn't part of the form anymore]
-        //    * Operating System / Software: Free: Debian, CentOS, CoreOS, Ubuntu, or another User-Provided OS
-        // await pages('compute_engine_calculator').setSelectField(operatingSystem.title, operatingSystem.value)
-        //    * Provisioning model: Regular
-        // [leaving in default state]
+    //    * What are these instances for?: leave blank
+    // [this isn't part of the form anymore]
+
+    it('6.2 Fill out the form * Operating System / Software', async () => {
+        const { operatingSystem } = TEST_DATA.COMPUTE_ENGINE;
+        await pages('compute_engine_calculator').setSelectField(operatingSystem.title, operatingSystem.data_value);
+    });
+
+    it('6.3 Fill out the form * Provisioning model', async () => {
+        const { provisioningModel } = TEST_DATA.COMPUTE_ENGINE;
+        await pages('compute_engine_calculator').clickButton(provisioningModel.value);
+    });
+
+    it('6.4 Fill out the form * Machine Family', async () => {
         //    * Machine Family: General purpose 
-        // [leaving in default state]
-        //    * Series: N1 
-        // [leaving in default state]
+        // await pages('compute_engine_calculator').setSelectField(machineFamily.title, machineFamily.value)
+    });
 
+    it('6.5 Fill out the form * Series', async () => {
+        const { series } = TEST_DATA.COMPUTE_ENGINE;
+        await pages('compute_engine_calculator').setSelectField(series.title, series.data_value);
+    });
+
+    it('6.6 Fill out the form * Machine type', async () => {
+        const { machineType } = TEST_DATA.COMPUTE_ENGINE;
         await pages('compute_engine_calculator').setSelectField(machineType.title, machineType.value);
+    });
+
+    it('6.7 Fill out the form * Add GPUs, GPU Type, Number of GPUs', async () => {
+        const { addGPUs, gpuType, numberOfGPUs } = TEST_DATA.COMPUTE_ENGINE;
         if (addGPUs.value) {
             await pages('compute_engine_calculator').clickButton(addGPUs.title);
-            await pages('compute_engine_calculator').setSelectField(gpuType.title, 'nvidia-tesla-v100'); // fix selector to avoid hard-coding here
+            await pages('compute_engine_calculator').setSelectField(gpuType.title, gpuType.data_value); 
+            await pages('compute_engine_calculator').setSelectField(numberOfGPUs.title, numberOfGPUs.value);
         }
+    });
 
-        //            * Number of GPUs: 1
-        // [leaving in default state]
+    it('6.8 Fill out the form * Local SSD', async () => {
+        const { localSSD } = TEST_DATA.COMPUTE_ENGINE;
+        await pages('compute_engine_calculator').setSelectField(localSSD.title, localSSD.data_value);
+    });
 
-        //    * Local SSD: 2x375 Gb
-        await pages('compute_engine_calculator').setSelectField(localSSD.title, '2'); // fix selector to avoid hard-coding here
+    it('6.9 Fill out the form * Region', async () => {
+        const { region } = TEST_DATA.COMPUTE_ENGINE;
+        await pages('compute_engine_calculator').setSelectField(region.title, region.value); 
+    });
 
-        await pages('compute_engine_calculator').setSelectField(region.title, region.value); // europe-west3 is unavailable for this set-up
+    it('6.10 Fill out the form * Commited usage', async () => {
+        const { commitedUsage } = TEST_DATA.COMPUTE_ENGINE;
         await pages('compute_engine_calculator').clickButton(commitedUsage.value);
     });
 
@@ -93,6 +110,8 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
     });
 
     it("11. verify that the 'Cost Estimate Summary' matches with filled values in Step 6.", async () => {
+        // open a mock summary - switch off for final verification
+        // await costEstimateSummaryComponent.open();
         const {
             numberOfInstances,
             operatingSystem,
@@ -102,11 +121,8 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
             numberOfGPUs,
             localSSD,
             region,
-            commitedUsage
+            commitedUsage,
         } = TEST_DATA.COMPUTE_ENGINE;
-
-        // open a mock summary - switch off for final verification
-        // await costEstimateSummaryComponent.open();
 
         const numberOfInstancesRow = await pages('cost_estimate_summary').getValue(numberOfInstances.title);
         await expect(numberOfInstancesRow).toHaveText(numberOfInstances.value);
