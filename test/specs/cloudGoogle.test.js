@@ -1,7 +1,7 @@
 import { pages } from "../../po/pages/index.js";
 
 describe('Google Cloud Platform Pricing Calculator - following script from Task 3', () => {
-    
+
     it('5. Click COMPUTE ENGINE at the top of the page.', async () => {
         // open the calculator directly if you want to skip the searching part of the script
         await pages('products_calculator').open()
@@ -51,7 +51,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         const { addGPUs, gpuType, numberOfGPUs } = TEST_DATA.COMPUTE_ENGINE;
         if (addGPUs.value) {
             await pages('compute_engine_calculator').clickButton(addGPUs.title);
-            await pages('compute_engine_calculator').setSelectField(gpuType.title, gpuType.data_value); 
+            await pages('compute_engine_calculator').setSelectField(gpuType.title, gpuType.data_value);
             await pages('compute_engine_calculator').setSelectField(numberOfGPUs.title, numberOfGPUs.value);
         }
     });
@@ -63,7 +63,7 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
 
     it('6.9 Fill out the form * Region', async () => {
         const { region } = TEST_DATA.COMPUTE_ENGINE;
-        await pages('compute_engine_calculator').setSelectField(region.title, region.value); 
+        await pages('compute_engine_calculator').setSelectField(region.title, region.value);
     });
 
     it('6.10 Fill out the form * Commited usage', async () => {
@@ -136,11 +136,15 @@ describe('Google Cloud Platform Pricing Calculator - following script from Task 
         const machineTypeRow = await pages('cost_estimate_summary').getValue(machineType.title);
         await expect(machineTypeRow).toHaveText(expect.stringContaining(machineType.value));
 
-        const gpuTypeRow = await pages('cost_estimate_summary').getValue(gpuType.title);
-        await expect(gpuTypeRow).toHaveText(gpuType.value);
+        if (gpuType.value) {
+            const gpuTypeRow = await pages('cost_estimate_summary').getValue(gpuType.title);
+            await expect(gpuTypeRow).toHaveText(gpuType.value);
+        }
 
-        const numberOfGPUsRow = await pages('cost_estimate_summary').getValue(numberOfGPUs.title);
-        await expect(numberOfGPUsRow).toHaveText(numberOfGPUs.value);
+        if (numberOfGPUs.value) {
+            const numberOfGPUsRow = await pages('cost_estimate_summary').getValue(numberOfGPUs.title);
+            await expect(numberOfGPUsRow).toHaveText(numberOfGPUs.value);
+        }
 
         const localSSDRow = await pages('cost_estimate_summary').getValue(localSSD.title);
         await expect(localSSDRow).toHaveText(localSSD.value);

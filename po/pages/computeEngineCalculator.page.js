@@ -32,6 +32,7 @@ export default class ComputeEngineCalculatorPage {
         const buttons = {
             "Add GPUs": 'button[aria-label = "Add GPUs"]',
             "1 Year": '//label[@for="1-year"]/parent::*',
+            "3 Years": '//label[@for="3-years"]/parent::*',
             "Share": 'button[aria-label="Open Share Estimate dialog"]',
             "Regular": '//label[contains(text(), "Regular")]'
         };

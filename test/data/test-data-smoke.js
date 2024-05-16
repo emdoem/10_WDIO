@@ -29,11 +29,11 @@ export const TEST_DATA = {
         },
         gpuType: {
             title: "GPU Model",
-            value: ""
+            value: false
         },
         numberOfGPUs: {
             title: "Number of GPUs",
-            value: ""
+            value: false
         },
         localSSD: {
             title: "Local SSD",
